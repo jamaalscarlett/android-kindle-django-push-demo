@@ -17,10 +17,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        kindle {
+            applicationId "com.jamaalscarlett.dpntester.kindle"
+        }
+        nokindle {
+            applicationId "com.jamaalscarlett.dpntester.nokindle"
+        }
+    }
+    sourceSets {
+        kindle {
+            java.srcDirs = ['src/kindle/java', 'src/kindle/java/com/jamaalscarlett/dpntester/kindle', 'src/kindle/java/']
+        }
+        nokindle { java.srcDirs = ['src/nokindle/java', 'src/nokindle/java/'] }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
+    nokindleCompile "com.google.android.gms:play-services-gcm:9.4.0"
+}
+
+for(name in  gradle.startParameter.taskNames){
+    if(name.contains("Nokindle")){
+        apply plugin: 'com.google.gms.google-services'
+    }
 }
